@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import playerReducer from './player.reducer'
 import worldReducer from './world.reducer'
-import uiReducer from './ui.reducer'
+import appReducer from './app.reducer'
 
 export const reducers = combineReducers({
-    ui:uiReducer,
+    app:appReducer,
     player:playerReducer,
     world:worldReducer
 })

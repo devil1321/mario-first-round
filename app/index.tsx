@@ -2,17 +2,28 @@
   import { StyleSheet, View } from "react-native";
   import { StageComponents } from "@/app/components";
   import * as ScreenOrientation from "expo-screen-orientation";
-  import * as PlayerActions from './controller/actions-creator/player.actions-creator'
+  import * as PlayerActionsCreator from './controller/actions-creator/player.actions-creator'
+  import * as WorldActions from './controller/actions-creator/world.actions-creator'
+  import * as AppActions from './controller/actions-creator/app.actions-creator'
   import { useSelector,useDispatch } from "react-redux";
   import { bindActionCreators } from "redux";
-import {State} from "./controller/reducers/root.reducer";
+  import {State} from "./controller/reducers/root.reducer";
+  import { PlayerActions } from "./controller/enums";
 
   export default function App() {
 
       const dispatch = useDispatch()
-      const playerActions = bindActionCreators(PlayerActions,dispatch)
+      const APPActions = bindActionCreators(AppActions,dispatch)
+      const playerActions = bindActionCreators(PlayerActionsCreator,dispatch)
+      const worldActios = bindActionCreators(WorldActions,dispatch)
       const player  = useSelector((state:State) => state.player) 
     
+      const handleRunLogic = () =>{
+        worldActios.makeButtonAction()
+        playerActions.animatePlayerSprite()
+      }
+
+
       useEffect(()=>{
         playerActions.initPlayerFrame({
             width:30,
@@ -31,9 +42,13 @@ import {State} from "./controller/reducers/root.reducer";
       };
     }, []);
 
+    useEffect(()=>{
+      requestAnimationFrame(handleRunLogic)
+    },[])
+
     return (
         <View style={styles.container}>
-          <StageComponents.RootCanvas>
+          <StageComponents.RootCanvas APPActions={APPActions}>
             <StageComponents.Background />
             <StageComponents.Controls />
             <StageComponents.Player player={player} />

@@ -11,9 +11,12 @@ const Controls = () => {
   const spacing = 120;
   const jumpSpacing = 750
   const gunSpacing = 870
+  const crouchSpacing = 750
+  const upButtonsTranslateY = 170
 
   const cx = padding + radius + translateY;
   const cy = height - padding - radius - translateY;
+  const cyUpButtons = height - padding - radius - upButtonsTranslateY;
 
   const lineHalf = 12.5;
 
@@ -53,10 +56,10 @@ const Controls = () => {
           angles={[ Math.PI / 4, -Math.PI / 4 ]}
         />
       </Group>
-      {/* Gun */}
       <Circle cx={cx + spacing + jumpSpacing} cy={cy} r={radius} color="red" />
-       {/* Jump */}
       <Circle cx={cx + spacing + gunSpacing} cy={cy} r={radius} color="skyblue" />
+      <Circle cx={cx + spacing + crouchSpacing} cy={cyUpButtons} r={radius} color="yellowgreen" />
+      <Circle cx={cx + spacing + gunSpacing} cy={cyUpButtons} r={radius} color="orange" />
     </Group>
   );
 };

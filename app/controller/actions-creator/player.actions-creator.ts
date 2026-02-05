@@ -41,7 +41,7 @@ export const playFrames = (currentFrames:any) => (dispatch:Dispatch) =>{
 export const makeAction = (currentAction:string) => (dispatch:Dispatch) =>{
     dispatch({
         type:PlayerTypes.MAKE_ACTION,
-        action:currentAction
+        currentAction:currentAction
     })
 }
 
@@ -58,14 +58,16 @@ export const stance = () => (dispatch:Dispatch) =>{
 }
 
 export const moveLeft = () => (dispatch:Dispatch) =>{
-    const { moveFrames } = store.getState().player
+    const { moveFrames,velocity } = store.getState().player
+    moveFrames.forEach((f:any) => f.x += velocity.current)
     dispatch({
         type:PlayerTypes.SET_PLAYER_CURRENT_FRAMES,
-        currentFrames:moveFrames
+        currentFrames:moveFrames,
     })
 }
 export const moveRight = () => (dispatch:Dispatch) =>{
-    const { moveFrames } = store.getState().player
+    const { moveFrames,velocity } = store.getState().player
+    moveFrames.forEach((f:any) => f.x -= velocity.current)
     dispatch({
         type:PlayerTypes.SET_PLAYER_CURRENT_FRAMES,
         currentFrames:moveFrames
@@ -73,6 +75,8 @@ export const moveRight = () => (dispatch:Dispatch) =>{
 }
 export const jump = () => (dispatch:Dispatch) =>{
     const { jumpFrames } = store.getState().player
+    jumpFrames.forEach((f:any) => f.y -= 20)
+
     dispatch({
         type:PlayerTypes.SET_PLAYER_CURRENT_FRAMES,
         currentFrames:jumpFrames
@@ -107,9 +111,41 @@ export const blow = () => (dispatch:Dispatch) =>{
 }
 
 
-export const animatePlayerSprite = (currentFrame:any) => (dispatch:Dispatch) => {
-    dispatch({
-        type:PlayerTypes.ANIMATE_PLAYER_SPRITE,
-        currentFrame:currentFrame
+export const animatePlayerSprite = () => (dispatch:Dispatch) => {
+    const { currentFrames, state } = store.getState().player
+    
+    const clock = {
+        current:0
+    }
+
+    gsap.to(clock,{
+        current:currentFrames.length,
+        duration:10,
+        onUpdate:() =>{
+            state.isAnimating = true
+            if(state.isAnimating){
+                dispatch({
+                    type:PlayerTypes.ANIMATE_PLAYER_SPRITE,
+                    currentFrame:currentFrames[clock.current]
+                })
+            }
+        },
+        onComplete:() =>{
+            state.isAnimating = false
+        }
     })
+
+    
+}
+
+export const animatePlayerGunSprite = () => (dispatch:Dispatch) => {
+    const { currentFrames }  = store.getState().player
+    
+    const clock = {
+        current:0
+    }
+
+ 
+
+    
 }

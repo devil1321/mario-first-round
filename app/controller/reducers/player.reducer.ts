@@ -3,8 +3,14 @@ import { PlayerAction } from "../actions/player.actions"
 import { PlayerActions } from "../enums";
 
 const initPlayerState  = {
+    state:{
+        isAnimating:false
+    },
     currentAction:PlayerActions.STANCE,
     lives:1,
+    velocity:{
+        current:10
+    },
     isHaveGun:false,
     currentFramesOfGun:[],
     currentFrameOfGun:{
@@ -23,10 +29,10 @@ const initPlayerState  = {
     stanceFrames:[
         {
             id:1,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:300,
+            translateY:355
         }
     ],
     crouchFrames:[
@@ -41,22 +47,22 @@ const initPlayerState  = {
     moveFrames:[
         {
             id:1,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:400,
+            translateY:355
         },{
             id:2,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:500,
+            translateY:355
         },{
             id:3,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:600,
+            translateY:355
         }
     ],
     dieFrames:[
