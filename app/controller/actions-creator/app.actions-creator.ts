@@ -20,9 +20,8 @@ export const handleTouch = (x: number, y: number, screenHeight: number) => (disp
   for (const button of buttons) {
     const cx = padding + radius + translateY + button.offsetX;
     const cy = baseY - button.offsetY; // ✅ correct vertical position
-
     if (isInsideCircle(x, y, cx, cy, button.r)) {
-        console.log(button)
+      console.log(button.name)
       if (button.name === ControlsButtons.BUTTON_LEFT || button.name === ControlsButtons.BUTTON_RIGHT) {
         dispatch({ type: AppTypes.SET_LEFT_BUTTON_ACTION, buttonLeft: button.name });
       } else {

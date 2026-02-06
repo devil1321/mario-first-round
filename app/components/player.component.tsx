@@ -8,18 +8,17 @@ const Player:React.FC<{ player:any }> = ({player}) => {
   const offsetY = 135
     
   const playerImage = useImage(require('../assets/mario/player.png'));
-
   
   return (
     <SkiaImage
       image={playerImage}
       x={player.currentFrame.translateX}
-      y={player.currentFrame.translateY}
+      y={player.translateY}
       width={imageWidth}
       height={imageHeight}
       clip={{
           x:player.currentFrame.translateX,
-          y:offsetY + player.currentFrame.translateY,
+          y:offsetY + player.translateY,
           width:player.currentFrame.width,
           height:player.currentFrame.height
         }}

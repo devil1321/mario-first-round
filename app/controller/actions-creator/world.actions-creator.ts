@@ -1,23 +1,25 @@
 import { Dispatch } from "redux";
 import { AppTypes, WorldTypes } from "../types";
 import { ControlsButtons, PlayerActions, WorldItems, WorldPhysics } from "../enums";
-import * as PlayerActionCreators from '../actions-creator/player.actions-creator'
+import * as playerActions from '../actions-creator/player.actions-creator'
 import * as AppActionCreators from '../actions-creator/app.actions-creator'
-import { bindActionCreators } from "redux";
 import store from "../store";
+import gsap from "gsap";
 
-const playerActions = bindActionCreators(PlayerActionCreators,store.dispatch)
+const dispatchAction = store.dispatch
+
+
 
 export const checkCollision = (currentObjectRect: any, collidedObjectRect: any) => {
-    const x1 = currentObjectRect.translateX;
-    const y1 = currentObjectRect.translateY;
-    const w1 = currentObjectRect.width;
-    const h1 = currentObjectRect.height;
+    const x1 = currentObjectRect?.translateX;
+    const y1 = currentObjectRect?.translateY;
+    const w1 = currentObjectRect?.width;
+    const h1 = currentObjectRect?.height;
 
-    const x2 = collidedObjectRect.translateX;
-    const y2 = collidedObjectRect.translateY;
-    const w2 = collidedObjectRect.width;
-    const h2 = collidedObjectRect.height;
+    const x2 = collidedObjectRect?.translateX;
+    const y2 = collidedObjectRect?.translateY;
+    const w2 = collidedObjectRect?.width;
+    const h2 = collidedObjectRect?.height;
 
     const isColliding =
       x1 < x2 + w2 &&
@@ -77,53 +79,59 @@ export const checkCollision = (currentObjectRect: any, collidedObjectRect: any) 
     return isColliding
   }
 
-  export const makePlayerAction = (currentObject:any) =>(dispatch:Dispatch) =>{
+  export const makePlayerAction = (currentAction:any) =>  {
     const collisions = checkPlayerCollisionsAndMakeItemsActions()
-    switch(currentObject.currentAction){
+    switch(currentAction){
         case PlayerActions.STANCE:
-            playerActions.stance()
+            // playerActions.stance()
             break
         case PlayerActions.MOVE_LEFT:
             if(!collisions){
-                playerActions.moveLeft()
-                playerActions.animatePlayerSprite()
+                console.log("move left")
+                dispatchAction(playerActions.moveLeft())
+                dispatchAction(playerActions.animatePlayerSprite())
             }
             break
         case PlayerActions.MOVE_RIGHT:
             if(!collisions){
-                playerActions.moveRight()
-                playerActions.animatePlayerSprite()
+                console.log("move right")
+                dispatchAction(playerActions.moveRight())
+                dispatchAction(playerActions.animatePlayerSprite())
             }
             break
         case PlayerActions.JUMP:
+            console.log("jump")
             if(!collisions){
-                playerActions.jump()
-                playerActions.animatePlayerSprite()
+                dispatchAction(playerActions.jump())
+                dispatchAction(playerActions.animatePlayerSprite())
             }
             break
         case PlayerActions.SHOOT:
+            console.log("shoot")
             if(!collisions){
-                playerActions.shoot()
-                playerActions.animatePlayerSprite()
-                playerActions.animatePlayerGunSprite()
+                dispatchAction(playerActions.shoot())
+                dispatchAction(playerActions.animatePlayerSprite())
+                dispatchAction(playerActions.animatePlayerGunSprite())
             }
             break
         case PlayerActions.CROUCH:
+            console.log("crouch")
             if(!collisions){
-                playerActions.crouch()
-                playerActions.animatePlayerSprite()
+                dispatchAction(playerActions.crouch())
+                dispatchAction(playerActions.animatePlayerSprite())
             }
             break
         case WorldPhysics.MAKE_GRAVITY:
-            const { line,gravity }  = store.getState().world
-            const { player } = store.getState()
-
-            const isColliding = checkCollision(player.currentFrame,line.rect)
-
-            if(!isColliding){
-                player.currentFrame.y += gravity
-            }
-
+            // const { gravity }  = store.getState().world
+            // const player= store.getState().player
+       
+            //     const interval = setInterval(() => {
+            //         if(player.translateY <= 355 && !player.state.isJumping){
+            //             let currentTranslate = player.translateY
+            //             currentTranslate += gravity
+            //             dispatchAction(playerActions.setPlayerTranslateY(currentTranslate))
+            //         }
+            //     }, 100);
         default:
             break
     }
@@ -152,9 +160,15 @@ export const makeButtonAction = () => (dispatch:Dispatch) =>{
         case ControlsButtons.BUTTON_RUN:
             const { velocity } = store.getState().player
             gsap.to(velocity,{
-                current:20,
-                duration:1,
+                current:10,
+                duration:0,
             })
+            setTimeout(() => {
+              gsap.to(velocity,{
+                current:1,
+                duration:0,
+            })  
+            }, 100);
             break
         case ControlsButtons.BUTTON_CROUCH:
             makePlayerAction(PlayerActions.CROUCH)

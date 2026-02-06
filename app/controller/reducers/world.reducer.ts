@@ -3,7 +3,7 @@ import { WorldTypes } from "../types"
 import { ControlsButtons, WorldItems } from "../enums"
 
 const worldInitState  = {
-    gravity:0,
+    gravity:1,
     worldItems:[],
     line:{
         type:WorldItems.GROUND,

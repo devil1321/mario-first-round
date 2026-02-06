@@ -1,17 +1,23 @@
 import { PlayerTypes } from "../types"
 import { PlayerAction } from "../actions/player.actions"
 import { PlayerActions } from "../enums";
+import {translate} from "@shopify/react-native-skia";
 
 const initPlayerState  = {
     state:{
-        isAnimating:false
+        isAnimating:false,
+        isJumping:false
     },
     currentAction:PlayerActions.STANCE,
     lives:1,
     velocity:{
-        current:10
+        current:1
+    },
+    accX:{
+        current:1
     },
     isHaveGun:false,
+    translateY:355,
     currentFramesOfGun:[],
     currentFrameOfGun:{
         height:0,
@@ -23,7 +29,6 @@ const initPlayerState  = {
         height:0,
         width:0,
         translateX:0,
-        translateY:0
     },
     currentFrames:[],
     stanceFrames:[
@@ -32,16 +37,14 @@ const initPlayerState  = {
             width:30,
             height:33,
             translateX:300,
-            translateY:355
         }
     ],
     crouchFrames:[
-          {
+           {
             id:1,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:300,
         }
     ],
     moveFrames:[
@@ -50,61 +53,52 @@ const initPlayerState  = {
             width:30,
             height:33,
             translateX:400,
-            translateY:355
         },{
-            id:2,
+             id:1,
             width:30,
             height:33,
-            translateX:500,
-            translateY:355
+            translateX:400,
         },{
-            id:3,
+            id:1,
             width:30,
             height:33,
-            translateX:600,
-            translateY:355
+            translateX:400,
         }
     ],
     dieFrames:[
          {
             id:1,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:300,
         }
     ],
     jumpFrames:[
-                {
+        {
             id:1,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:400,
         },{
             id:2,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:400,
         },{
             id:3,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:400,
         },{
             id:4,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:400,
         },{
             id:5,
-            height:0,
-            width:0,
-            translateX:0,
-            translateY:0
+            width:30,
+            height:33,
+            translateX:400,
         }
     ],
     shootFrames:[
@@ -113,31 +107,26 @@ const initPlayerState  = {
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         },{
             id:2,
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         },{
             id:3,
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         },{
             id:4,
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         },{
             id:5,
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         },
     ],
     blowFrames:[
@@ -146,19 +135,16 @@ const initPlayerState  = {
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         },{
             id:2,
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         },{
             id:3,
             height:0,
             width:0,
             translateX:0,
-            translateY:0
         }
     ]
 }
@@ -166,10 +152,25 @@ const initPlayerState  = {
 
 export default function(state = initPlayerState,action:PlayerAction){
     switch(action.type){
-        case PlayerTypes.SET_PLAYER_FRAME:
+         case PlayerTypes.SET_STATE_IS_JUMPING:
+            state.state.isJumping = action.isJumping
+            return{
+                ...state,
+            }
+        case PlayerTypes.SET_PLAYER_CURRENT_FRAME:
             return{
                 ...state,
                 currentFrame:action.currentFrame
+            }
+        case PlayerTypes.SET_PLAYER_CURRENT_TRANSLATE_Y:
+            return{
+                ...state,
+                translateY:action.translateY
+            }
+        case PlayerTypes.SET_PLAYER_CURRENT_FRAMES:
+            return{
+                ...state,
+                currentFrames:action.currentFrames
             }
         default:
             return state
