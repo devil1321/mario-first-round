@@ -1,0 +1,1 @@
+export type Brick1Action = any

@@ -1,0 +1,1 @@
+export type QuestionMark3Action = any

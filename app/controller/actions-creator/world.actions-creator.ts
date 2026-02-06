@@ -169,7 +169,7 @@ export const makeButtonAction = () => (dispatch:Dispatch) =>{
                     currentButtonLeftAction:null
                 })
             }
-             if(state.isFingetRightLeave){
+             if(state.isFingerRightLeave){
                 const { velocity } = store.getState().player
                 velocity.current = 10
                 dispatch({

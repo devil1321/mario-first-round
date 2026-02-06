@@ -19,6 +19,18 @@ export enum PlayerTypes{
     ANIMATE_PLAYER_GUN_SPRITE = "ANIMATE_PLAYER_GUN_SPRITE"
 }
 
+export enum GroundTypes{}
+export enum Pipe1Types{}
+export enum Pipe2Types{}
+export enum Pipe3Types{}
+export enum Brick1Types{}
+export enum Brick2Types{}
+export enum Brick3Types{}
+export enum QuestionMark1Types{}
+export enum QuestionMark2Types{}
+export enum QuestionMark3Types{}
+export enum QuestionMark4Types{}
+
 export enum WorldTypes{
     DETECT_COLLISION = "DETECT_COLLISION",
     MAKE_ACTION = "MAKE_ACTION",

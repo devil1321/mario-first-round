@@ -1,0 +1,1 @@
+export type Pipe2Action = any
